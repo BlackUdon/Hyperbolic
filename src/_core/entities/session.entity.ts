@@ -6,6 +6,7 @@ import {
   OneToMany,
   ManyToOne,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import {Entry} from './entry.entity';
 import {Exercise} from './exercise.entity';
@@ -15,10 +16,12 @@ export class Session {
   @PrimaryGeneratedColumn()
   ID!: number;
 
-  @OneToMany((type) => Exercise, (exercise) => exercise.ID)
+  @OneToMany((type) => Exercise, (exercise) => exercise.ID, {cascade: true})
+  @JoinColumn()
   ExerciseID!: Exercise;
 
-  @OneToMany((type) => Entry, (entry) => entry.ID)
+  @OneToMany((type) => Entry, (entry) => entry.ID, {cascade: true})
+  @JoinColumn()
   EntryID!: Entry;
 
   @Column('date')

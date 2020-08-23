@@ -15,9 +15,7 @@ export class Entry {
   @PrimaryGeneratedColumn()
   ID!: number;
 
-  @OneToOne((type) => Session, (session) => session.ID, {
-    cascade: ['insert'],
-  })
+  @OneToOne((type) => Session, (session) => session.ID)
   SessionID!: Session;
 
   @ManyToOne((type) => Exercise, (exercise) => exercise.ID)

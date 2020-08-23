@@ -4,13 +4,15 @@ import {createConnection, Connection, getRepository} from 'typeorm';
 import {Entry} from '../entities/entry.entity';
 import {Session} from '../entities/session.entity';
 import {Exercise} from '../entities/exercise.entity';
+import {session} from 'electron';
 
 export const DAL = () => {
   console.log(`CT start`);
-  const [defaultConnection, setconnection] = useState<Connection | null>(null);
+  const [defaultConnection, setConnection] = useState<Connection | null>(null);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [entries, setEntries] = useState<Entry[]>([]);
+
   const setupConnection = useCallback(async () => {
     try {
       const connection = await createConnection({
@@ -21,10 +23,10 @@ export const DAL = () => {
         synchronize: true,
         entities: [Entry, Session, Exercise],
       });
-      setconnection(connection);
+      setConnection(connection);
       getSessions();
-      getExercises();
-      getEntries();
+      // getExercises();
+      // getEntries();
       console.log(`Connection Made`);
     } catch (error) {
       console.log(`Error in CT ${error}`);
@@ -87,12 +89,10 @@ export const DAL = () => {
       setupConnection();
     } else {
       getSessions();
-      getExercises();
-      getEntries();
     }
   }, []);
 
-  return entries;
+  return sessions;
 };
 
 export default DAL;

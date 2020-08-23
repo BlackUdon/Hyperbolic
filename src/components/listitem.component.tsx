@@ -8,7 +8,7 @@ import {StackActions} from '@react-navigation/native';
 export function ListItemComponent(props: ListItemModel): JSX.Element {
   const {id, ...rest} = props;
   console.log('item');
-  console.log(rest);
+  console.log(rest.item.Date);
 
   return (
     <>
@@ -19,7 +19,7 @@ export function ListItemComponent(props: ListItemModel): JSX.Element {
         })}>
         <View style={ItemStyle.previousSession}>
           <Text style={ItemStyle.text}>Previous Session {id}</Text>
-          <Text style={ItemStyle.text}>{rest.item.name}</Text>
+          <Text style={ItemStyle.text}>{rest.item.Date}</Text>
         </View>
       </LinkButton>
     </>

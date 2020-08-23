@@ -13,12 +13,12 @@ export const ListView = (props: {list: any[]}) => {
       <FlatList<any>
         // keyExtractor={(item) => item.id}
         data={a}
-        keyExtractor={(item, index) => item.id.toString()}
+        keyExtractor={(item, index) => item.ID.toString()}
         renderItem={({item, separators}) => (
           <TouchableHighlight
             onShowUnderlay={separators.highlight}
             onHideUnderlay={separators.unhighlight}>
-            <ListItemComponent id={item.id} item={{...item}} />
+            <ListItemComponent id={item.ID} item={{...item}} />
           </TouchableHighlight>
         )}></FlatList>
     </>

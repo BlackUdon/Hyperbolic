@@ -6,6 +6,7 @@ import {
   OneToMany,
   ManyToOne,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import {Session} from './session.entity';
 import {Entry} from './entry.entity';
@@ -19,6 +20,7 @@ export class Exercise {
   SessionID!: Session;
 
   @OneToMany((type) => Entry, (entry) => entry.ID)
+  @JoinColumn()
   EntryID!: Entry;
 
   @Column({type: 'varchar', length: 30})
