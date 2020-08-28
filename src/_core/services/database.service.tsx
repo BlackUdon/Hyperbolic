@@ -4,34 +4,13 @@ import {createConnection, Connection, getRepository} from 'typeorm';
 import {Entry} from '../entities/entry.entity';
 import {Session} from '../entities/session.entity';
 import {Exercise} from '../entities/exercise.entity';
-import {session} from 'electron';
 
-export const DAL = () => {
+export const DAL = (table: string) => {
   console.log(`CT start`);
   const [defaultConnection, setConnection] = useState<Connection | null>(null);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [entries, setEntries] = useState<Entry[]>([]);
-
-  const setupConnection = useCallback(async () => {
-    try {
-      const connection = await createConnection({
-        type: 'react-native',
-        database: 'test',
-        location: 'default',
-        logging: ['error', 'query', 'schema'],
-        synchronize: true,
-        entities: [Entry, Session, Exercise],
-      });
-      setConnection(connection);
-      getSessions();
-      // getExercises();
-      // getEntries();
-      console.log(`Connection Made`);
-    } catch (error) {
-      console.log(`Error in CT ${error}`);
-    }
-  }, []);
 
   const getSessions = useCallback(async () => {
     const tRepository = getRepository(Session);
@@ -84,15 +63,42 @@ export const DAL = () => {
     setEntries(result);
   }, []);
 
+  interface Table<T> {
+    [Key: string]: {};
+  }
+
+  const dictResult: Table<string> = {
+    Session: sessions,
+    Exercise: exercises,
+    Entry: entries,
+  };
+
+  const setupConnection = useCallback(async () => {
+    try {
+      const connection = await createConnection({
+        type: 'react-native',
+        database: 'test',
+        location: 'default',
+        logging: ['error', 'query', 'schema'],
+        synchronize: true,
+        entities: [Entry, Session, Exercise],
+      });
+      setConnection(connection);
+      getSessions();
+      console.log(`Connection Made`);
+    } catch (error) {
+      console.log(`Error in CT ${error}`);
+    }
+  }, []);
+
   useEffect(() => {
     if (!defaultConnection) {
       setupConnection();
     } else {
-      getSessions();
     }
   }, []);
-
-  return sessions;
+  // getSessions();
+  return dictResult[table] as [];
 };
 
 export default DAL;

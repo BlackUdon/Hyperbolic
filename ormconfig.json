@@ -1,0 +1,8 @@
+{
+  "type": "react-native",
+  "database": "test",
+  "location": "default",
+  "synchronize": true,
+  "logging": ["error", "query", "schema"],
+ "entities": ["Entry", "Session", "Exercise"]
+}

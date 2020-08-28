@@ -6,8 +6,8 @@ import {ListItemComponent} from './listitem.component';
 
 export const ListView = (props: {list: any[]}) => {
   let a = props.list;
-  console.log('listv');
-  console.log(a[0]);
+  // console.log('list view');
+  // console.log(a[0]);
   return (
     <>
       <FlatList<any>
