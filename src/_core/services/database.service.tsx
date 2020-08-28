@@ -12,6 +12,76 @@ export const DAL = (table: string) => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [entries, setEntries] = useState<Entry[]>([]);
 
+<<<<<<< HEAD
+=======
+  const setupConnection = useCallback(async () => {
+    try {
+      const connection = await createConnection({
+        type: 'react-native',
+        database: 'test',
+        location: 'default',
+        logging: ['error', 'query', 'schema'],
+        synchronize: true,
+        entities: [Entry, Session, Exercise],
+      });
+      setConnection(connection);
+      getSessions();
+      // getExercises();
+      // getEntries();
+      console.log(`Connection Made`);
+    } catch (error) {
+      console.log(`Error in CT ${error}`);
+    }
+  }, []);
+
+  const createSession = useCallback(async () => {
+	const tRepository = getRepository(Session);
+    let result = await tRepository.find();
+    if (result.length === 0) {
+      const newSession = new Session();
+      newSession.ExerciseID = new Exercise();
+      newSession.EntryID = new Entry();
+      newSession.Date = '11/11/2020';
+      await tRepository.save(newSession);
+      result = await tRepository.find();
+    }
+  })  
+  const createExercise = useCallback(async () => {
+	const tRepository = getRepository(Exercise);
+    let result = await tRepository.find();
+    if (result.length === 0) {
+      const newExercise = new Exercise();
+      newExercise.SessionID = new Session();
+      newExercise.EntryID = new Entry();
+      newExercise.Name = 'Bench';
+      newExercise.Description = 'Bench stuff';
+      newExercise.SetNum = 1;
+      newExercise.RepNum = 1;
+      newExercise.RestNum = 1;
+      newExercise.Date = '11/11/2020';
+      await tRepository.save(newExercise);
+      result = await tRepository.find();
+    }
+  })
+  const createEntry = useCallback(async () => {
+	const tRepository = getRepository(Entry);
+    let result = await tRepository.find();
+    if (result.length === 0) {
+      const newEntry = new Entry();
+      newEntry.SessionID = new Session();
+      newEntry.ExerciseID = new Exercise();
+      newEntry.SetCount = 10;
+      newEntry.RepCount = 5;
+      newEntry.TimeTotal = '10s';
+      newEntry.Note = 'Note';
+      newEntry.Date = '11/11/2020';
+      await tRepository.save(newEntry);
+      result = await tRepository.find();
+    }
+  })
+
+
+>>>>>>> c2d62f912df76067cbce69596ff39fca5ef08957
   const getSessions = useCallback(async () => {
     const tRepository = getRepository(Session);
     let result = await tRepository.find();
