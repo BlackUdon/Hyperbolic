@@ -12,8 +12,6 @@ export const DAL = (table: string) => {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [entries, setEntries] = useState<Entry[]>([]);
 
-<<<<<<< HEAD
-=======
   const setupConnection = useCallback(async () => {
     try {
       const connection = await createConnection({
@@ -35,7 +33,7 @@ export const DAL = (table: string) => {
   }, []);
 
   const createSession = useCallback(async () => {
-	const tRepository = getRepository(Session);
+    const tRepository = getRepository(Session);
     let result = await tRepository.find();
     if (result.length === 0) {
       const newSession = new Session();
@@ -45,9 +43,9 @@ export const DAL = (table: string) => {
       await tRepository.save(newSession);
       result = await tRepository.find();
     }
-  })  
+  }, []);
   const createExercise = useCallback(async () => {
-	const tRepository = getRepository(Exercise);
+    const tRepository = getRepository(Exercise);
     let result = await tRepository.find();
     if (result.length === 0) {
       const newExercise = new Exercise();
@@ -62,9 +60,9 @@ export const DAL = (table: string) => {
       await tRepository.save(newExercise);
       result = await tRepository.find();
     }
-  })
+  }, []);
   const createEntry = useCallback(async () => {
-	const tRepository = getRepository(Entry);
+    const tRepository = getRepository(Entry);
     let result = await tRepository.find();
     if (result.length === 0) {
       const newEntry = new Entry();
@@ -78,10 +76,8 @@ export const DAL = (table: string) => {
       await tRepository.save(newEntry);
       result = await tRepository.find();
     }
-  })
+  }, []);
 
-
->>>>>>> c2d62f912df76067cbce69596ff39fca5ef08957
   const getSessions = useCallback(async () => {
     const tRepository = getRepository(Session);
     let result = await tRepository.find();
@@ -142,24 +138,6 @@ export const DAL = (table: string) => {
     Exercise: exercises,
     Entry: entries,
   };
-
-  const setupConnection = useCallback(async () => {
-    try {
-      const connection = await createConnection({
-        type: 'react-native',
-        database: 'test',
-        location: 'default',
-        logging: ['error', 'query', 'schema'],
-        synchronize: true,
-        entities: [Entry, Session, Exercise],
-      });
-      setConnection(connection);
-      getSessions();
-      console.log(`Connection Made`);
-    } catch (error) {
-      console.log(`Error in CT ${error}`);
-    }
-  }, []);
 
   useEffect(() => {
     if (!defaultConnection) {
