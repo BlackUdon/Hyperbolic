@@ -6,7 +6,6 @@
     "start": "yarn react-native start",
     "android": "yarn react-native run-android",
     "logging": "yarn react-native log-android",
-    "devtool": "yarn react-devtools",
     "ios": "react-native run-ios",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
@@ -22,6 +21,7 @@
     "core-js": "^3.6.5",
     "dot-prop": "^5.1.1",
     "electron": "^8.4.0",
+    "flipper": "^0.54.0",
     "install": "^0.13.0",
     "lodash": "^4.17.20",
     "package.json": "^2.0.1",
@@ -44,9 +44,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
-    "@babel/plugin-transform-typescript": "^7.11.0",
     "@babel/plugin-proposal-decorators": "^7.10.5",
-    "babel-plugin-transform-typescript-metadata": "^0.3.0",
+    "@babel/plugin-transform-typescript": "^7.11.0",
     "@babel/runtime": "^7.11.2",
     "@react-native-community/eslint-config": "^1.0.0",
     "@types/jest": "^24.0.24",
@@ -56,11 +55,13 @@
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "babel-jest": "^24.9.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.0",
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.58.0",
     "prettier": "^2.0.4",
     "react-test-renderer": "16.11.0",
+    "reactotron-react-native": "^5.0.0",
     "typescript": "^3.9.7"
   },
   "jest": {

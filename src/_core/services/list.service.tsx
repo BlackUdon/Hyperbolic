@@ -1,17 +1,20 @@
-export class ListService {
-  lists = null;
+import {useCallback, useEffect, useState} from 'react';
+import {Session} from '../entities/session.entity';
+import {createConnection, Connection, getRepository} from 'typeorm';
 
-  getLists(): null {
-    if (this.lists) {
-      return this.lists;
-    }
+export const SessionService = (param: string) => {
+  const [sessionsData, setSessionsData] = useState<Session[]>([]);
 
-    // const listData: any = DatabaseService.query('SELECT id, name /*...*/');
-    // this.lists = listData.map((data) => new ListModel(data));
-    return this.lists;
-  }
-
-  //   getListById(id: number) {
-  //     return this.getLists().filter((list) => list.id === id);
+  // const getData(): Session[] {
+  //   if (this.sessionData) {
+  //     return this.sessionData;
   //   }
-}
+  //   // const listData: any = DatabaseService.query('SELECT id, name /*...*/');
+  //   // this.sessionData = listData.map((data) => new ListModel(data));
+  //   return this.sessionData;
+  // }
+
+  // //   getListById(id: number) {
+  // //     return this.getLists().filter((list) => list.id === id);
+  // //   }
+};

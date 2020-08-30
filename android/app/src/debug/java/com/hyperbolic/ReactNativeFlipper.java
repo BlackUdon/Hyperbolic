@@ -26,15 +26,10 @@ import okhttp3.OkHttpClient;
 
 public class ReactNativeFlipper {
   public static void initializeFlipper(Context context, ReactInstanceManager reactInstanceManager) {
+
     if (FlipperUtils.shouldEnableFlipper(context)) {
       final FlipperClient client = AndroidFlipperClient.getInstance(context);
-
-      client.addPlugin(new InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()));
-      client.addPlugin(new ReactFlipperPlugin());
-      client.addPlugin(new DatabasesFlipperPlugin(context));
-      client.addPlugin(new SharedPreferencesFlipperPlugin(context));
-      client.addPlugin(CrashReporterPlugin.getInstance());
-
+      final DescriptorMapping descriptorMapping = DescriptorMapping.withDefaults();
       NetworkFlipperPlugin networkFlipperPlugin = new NetworkFlipperPlugin();
       NetworkingModule.setCustomClientBuilder(
           new NetworkingModule.CustomClientBuilder() {
@@ -43,7 +38,16 @@ public class ReactNativeFlipper {
               builder.addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin));
             }
           });
+      
+      client.addPlugin(new InspectorFlipperPlugin(context, DescriptorMapping.withDefaults()));
+      client.addPlugin(new ReactFlipperPlugin());
+      client.addPlugin(new DatabasesFlipperPlugin(context));
+      client.addPlugin(new SharedPreferencesFlipperPlugin(context));
+      client.addPlugin(CrashReporterPlugin.getInstance());
+      client.addPlugin(new DatabasesFlipperPlugin(context));
+      client.addPlugin(new InspectorFlipperPlugin(context, descriptorMapping));
       client.addPlugin(networkFlipperPlugin);
+
       client.start();
 
       // Fresco Plugin needs to ensure that ImagePipelineFactory is initialized

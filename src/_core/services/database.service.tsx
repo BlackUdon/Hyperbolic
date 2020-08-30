@@ -8,9 +8,10 @@ import {Exercise} from '../entities/exercise.entity';
 export const DAL = (table: string) => {
   console.log(`CT start`);
   const [defaultConnection, setConnection] = useState<Connection | null>(null);
-  const [sessions, setSessions] = useState<Session[]>([]);
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [entries, setEntries] = useState<Entry[]>([]);
+
+  const [sessionsData, setSessionsData] = useState<Session[]>([]);
+  const [exercisesData, setExercisesData] = useState<Exercise[]>([]);
+  const [entriesData, setEntriesData] = useState<Entry[]>([]);
 
   const setupConnection = useCallback(async () => {
     try {
@@ -28,23 +29,19 @@ export const DAL = (table: string) => {
       // getEntries();
       console.log(`Connection Made`);
     } catch (error) {
-      console.log(`Error in CT ${error}`);
+      console.log(`Error in Connection: ${error}`);
     }
   }, []);
 
-  const createSession = useCallback(async () => {
+  const setSession = useCallback(async () => {
     const tRepository = getRepository(Session);
-    let result = await tRepository.find();
-    if (result.length === 0) {
-      const newSession = new Session();
-      newSession.ExerciseID = new Exercise();
-      newSession.EntryID = new Entry();
-      newSession.Date = '11/11/2020';
-      await tRepository.save(newSession);
-      result = await tRepository.find();
-    }
+    const newSession = new Session();
+    newSession.ExerciseID = new Exercise();
+    newSession.EntryID = new Entry();
+    newSession.Date = '11/11/2020';
+    await tRepository.save(newSession);
   }, []);
-  const createExercise = useCallback(async () => {
+  const setExercise = useCallback(async () => {
     const tRepository = getRepository(Exercise);
     let result = await tRepository.find();
     if (result.length === 0) {
@@ -61,7 +58,7 @@ export const DAL = (table: string) => {
       result = await tRepository.find();
     }
   }, []);
-  const createEntry = useCallback(async () => {
+  const setEntry = useCallback(async () => {
     const tRepository = getRepository(Entry);
     let result = await tRepository.find();
     if (result.length === 0) {
@@ -82,16 +79,10 @@ export const DAL = (table: string) => {
     const tRepository = getRepository(Session);
     let result = await tRepository.find();
     if (result.length === 0) {
-      const newSession = new Session();
-      newSession.ExerciseID = new Exercise();
-      newSession.EntryID = new Entry();
-      newSession.Date = '11/11/2020';
-      await tRepository.save(newSession);
-      result = await tRepository.find();
+    } else {
+      setSessionsData(result);
     }
-    setSessions(result);
   }, []);
-
   const getExercises = useCallback(async () => {
     const tRepository = getRepository(Exercise);
     let result = await tRepository.find();
@@ -108,7 +99,7 @@ export const DAL = (table: string) => {
       await tRepository.save(newExercise);
       result = await tRepository.find();
     }
-    setExercises(result);
+    setExercisesData(result);
   }, []);
 
   const getEntries = useCallback(async () => {
@@ -126,7 +117,7 @@ export const DAL = (table: string) => {
       await tRepository.save(newEntry);
       result = await tRepository.find();
     }
-    setEntries(result);
+    setEntriesData(result);
   }, []);
 
   interface Table<T> {
@@ -134,9 +125,9 @@ export const DAL = (table: string) => {
   }
 
   const dictResult: Table<string> = {
-    Session: sessions,
-    Exercise: exercises,
-    Entry: entries,
+    Session: sessionsData,
+    Exercise: exercisesData,
+    Entry: entriesData,
   };
 
   useEffect(() => {

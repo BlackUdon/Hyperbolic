@@ -7,7 +7,7 @@ import {ListModel} from '../_core/models/list.model';
 import {getData, Entities} from '../_core/services/storage.service';
 import {ListStyle} from '../styles/list.style';
 import {ListView} from '../components/listview.component';
-import DAL from '../_core/services/database.service';
+import {DAL} from '../_core/services/database.service';
 import TestDB from '../db';
 
 export function HomeScreen({navigation, route}: AuthNavProps<'HomeScreen'>) {
