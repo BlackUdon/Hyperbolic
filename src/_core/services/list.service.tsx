@@ -1,20 +1,28 @@
 import {useCallback, useEffect, useState} from 'react';
+import {getRepository} from 'typeorm';
 import {Session} from '../entities/session.entity';
-import {createConnection, Connection, getRepository} from 'typeorm';
+import {format} from 'date-fns';
 
-export const SessionService = (param: string) => {
-  const [sessionsData, setSessionsData] = useState<Session[]>([]);
+export const setSession = async (param?: string) => {
+  const sessionRepo = getRepository(Session);
+  const temp = sessionRepo.create({
+    Date: format(new Date(), 'P'),
+  });
 
-  // const getData(): Session[] {
-  //   if (this.sessionData) {
-  //     return this.sessionData;
-  //   }
-  //   // const listData: any = DatabaseService.query('SELECT id, name /*...*/');
-  //   // this.sessionData = listData.map((data) => new ListModel(data));
-  //   return this.sessionData;
-  // }
+  await sessionRepo.save(temp).catch((err) => {
+    console.log('SessionService:Create :', err);
+  });
+  console.log('Session Saved');
+};
 
-  // //   getListById(id: number) {
-  // //     return this.getLists().filter((list) => list.id === id);
-  // //   }
+export const getSession = async () => {
+  const sessionRepo = getRepository(Session);
+  const temp = await sessionRepo.find();
+  // const [sessionsData, setSessionsData] = useState<Session[]>([]);
+  // const getDate = useCallback(async () => {
+  //   const temp = await sessionRepo.find();
+  //   setSessionsData(temp);
+  // }, []);
+  // console.log(temp);
+  return temp;
 };

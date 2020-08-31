@@ -7,8 +7,8 @@ import {StackActions} from '@react-navigation/native';
 
 export function ListItemComponent(props: ListItemModel): JSX.Element {
   const {id, ...rest} = props;
-  console.log('item');
-  console.log(rest.item.Date);
+  // console.log('item');
+  // console.log(rest.item.Date);
 
   return (
     <>

@@ -21,6 +21,7 @@ export const Header = ({title, subTitle}: HeaderProps) => {
         <Text style={styles.header}>
           {title} - <Text style={styles.text}>{subTitle} </Text>
         </Text>
+        <Text></Text>
       </View>
     </>
   );

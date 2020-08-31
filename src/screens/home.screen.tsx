@@ -8,19 +8,34 @@ import {getData, Entities} from '../_core/services/storage.service';
 import {ListStyle} from '../styles/list.style';
 import {ListView} from '../components/listview.component';
 import {DAL} from '../_core/services/database.service';
+import * as ListService from '../_core/services/list.service';
 import TestDB from '../db';
+import {Session} from '../_core/entities/session.entity';
 
 export function HomeScreen({navigation, route}: AuthNavProps<'HomeScreen'>) {
   // const testDATA: ListModel[] = TestDB();
   // console.log(`HomeScreen - TestCT: ${testDATA[0]}`);
   // console.log(testDATA[0]);
 
-  const dal: ListModel[] = DAL('Session');
-  // const dal: ListModel[] = [];
-  console.log(`HomeScreen - Data: ${dal[0]}`);
-  console.log(dal[0]);
+  const [a, setState] = useState<ListModel[]>([]);
+  const [triggered, setTrigger] = useState<Boolean>(false);
+  // const dal: ListModel[] = DAL('Session');
+  // let dal: ListModel[] = ListService.getSession().then({});
+  // console.log(`HomeScreen - Data: ${dal[0]}`);
+  // console.log(dal[0]);
 
-  // let d = DAL('Session');
+  ListService.getSession()
+    .then((res) => {
+      if (triggered == false) {
+        setState(res);
+        console.log('Got data');
+      } else {
+        console.log('No data');
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   return (
     <>
@@ -37,16 +52,17 @@ export function HomeScreen({navigation, route}: AuthNavProps<'HomeScreen'>) {
                 // navigation.navigate('SessionScreen', {
                 // sessionID: 'New Session',
                 // });
+                ListService.setSession();
+                console.log('HomeScreen::On Press::ListService');
+                setTrigger(true);
               }}
               style={ListStyle.text}>
               Next Session
             </Text>
-            {/* <CT></CT> */}
-            {/* <TestDB></TestDB> */}
           </TouchableOpacity>
         </View>
         {/* <ListView list={dalDATA}></ListView> */}
-        <ListView list={dal}></ListView>
+        <ListView list={a}></ListView>
       </View>
     </>
   );

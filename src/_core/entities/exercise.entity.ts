@@ -16,9 +16,6 @@ export class Exercise {
   @PrimaryGeneratedColumn()
   ID!: number;
 
-  @ManyToOne((type) => Session, (session) => session.ID)
-  SessionID!: Session;
-
   @OneToMany((type) => Entry, (entry) => entry.ID)
   @JoinColumn()
   EntryID!: Entry;

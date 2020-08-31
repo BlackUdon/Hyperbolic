@@ -13,6 +13,8 @@ export const ListView = (props: {list: any[]}) => {
       <FlatList<any>
         // keyExtractor={(item) => item.id}
         data={a}
+        inverted={true}
+        // invertStickyHeaders={true}
         keyExtractor={(item, index) => item.ID.toString()}
         renderItem={({item, separators}) => (
           <TouchableHighlight

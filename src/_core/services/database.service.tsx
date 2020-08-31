@@ -4,8 +4,9 @@ import {createConnection, Connection, getRepository} from 'typeorm';
 import {Entry} from '../entities/entry.entity';
 import {Session} from '../entities/session.entity';
 import {Exercise} from '../entities/exercise.entity';
+import * as ListService from './list.service';
 
-export const DAL = (table: string) => {
+export const DAL = () => {
   console.log(`CT start`);
   const [defaultConnection, setConnection] = useState<Connection | null>(null);
 
@@ -24,7 +25,12 @@ export const DAL = (table: string) => {
         entities: [Entry, Session, Exercise],
       });
       setConnection(connection);
-      getSessions();
+      // ListService.setSession();
+      // let temp = await ListService.getSession();
+      // console.log(temp);
+      // setSessionsData(temp);
+      // ListService.setSession;
+      // getSessions();
       // getExercises();
       // getEntries();
       console.log(`Connection Made`);
@@ -36,7 +42,6 @@ export const DAL = (table: string) => {
   const setSession = useCallback(async () => {
     const tRepository = getRepository(Session);
     const newSession = new Session();
-    newSession.ExerciseID = new Exercise();
     newSession.EntryID = new Entry();
     newSession.Date = '11/11/2020';
     await tRepository.save(newSession);
@@ -46,7 +51,6 @@ export const DAL = (table: string) => {
     let result = await tRepository.find();
     if (result.length === 0) {
       const newExercise = new Exercise();
-      newExercise.SessionID = new Session();
       newExercise.EntryID = new Entry();
       newExercise.Name = 'Bench';
       newExercise.Description = 'Bench stuff';
@@ -88,14 +92,13 @@ export const DAL = (table: string) => {
     let result = await tRepository.find();
     if (result.length === 0) {
       const newExercise = new Exercise();
-      newExercise.SessionID = new Session();
       newExercise.EntryID = new Entry();
       newExercise.Name = 'Bench';
       newExercise.Description = 'Bench stuff';
       newExercise.SetNum = 1;
       newExercise.RepNum = 1;
       newExercise.RestNum = 1;
-      newExercise.Date = '11/11/2020';
+      newExercise.Date = '2020/11/11';
       await tRepository.save(newExercise);
       result = await tRepository.find();
     }
@@ -137,7 +140,7 @@ export const DAL = (table: string) => {
     }
   }, []);
   // getSessions();
-  return dictResult[table] as [];
+  return [];
 };
 
 export default DAL;
