@@ -14,7 +14,7 @@ export const ListView = (props: {list: any[]}) => {
         // keyExtractor={(item) => item.id}
         data={a}
         inverted={false}
-        invertStickyHeaders={true}
+        invertStickyHeaders={false}
         keyExtractor={(item, index) => item.ID.toString()}
         renderItem={({item, separators}) => (
           <TouchableHighlight

@@ -4,8 +4,8 @@ import {Session} from '../entities/session.entity';
 import {format} from 'date-fns';
 
 export const setSession = async (param?: string) => {
-  const sessionRepo = getRepository(Session);
-  const temp = sessionRepo.create({
+  const sessionRepo = await getRepository(Session);
+  const temp = await sessionRepo.create({
     Date: format(new Date(), 'P'),
   });
 
@@ -16,7 +16,8 @@ export const setSession = async (param?: string) => {
 };
 
 export const getSession = async () => {
-  const sessionRepo = getRepository(Session);
+  const sessionRepo = await getRepository(Session);
+  console.log(`SessionRepo + ${sessionRepo}`);
   const temp = await sessionRepo.find();
   // const [sessionsData, setSessionsData] = useState<Session[]>([]);
   // const getDate = useCallback(async () => {

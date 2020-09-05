@@ -6,8 +6,33 @@ import {Session} from '../entities/session.entity';
 import {Exercise} from '../entities/exercise.entity';
 import * as ListService from './list.service';
 
+export const testSetupConnection = async () => {
+  try {
+    const connection = await createConnection({
+      type: 'react-native',
+      database: 'test',
+      location: 'default',
+      logging: ['error', 'query', 'schema'],
+      synchronize: true,
+      entities: [Entry, Session, Exercise],
+    });
+    // setConnection(connection);
+    // ListService.setSession();
+    // let temp = await ListService.getSession();
+    // console.log(temp);
+    // setSessionsData(temp);
+    // ListService.setSession;
+    // getSessions();
+    // getExercises();
+    // getEntries();
+    console.log(`Connection Made`);
+  } catch (error) {
+    console.log(`Error in Connection::${error}`);
+  }
+};
+
 export const DAL = () => {
-  console.log(`CT start`);
+  console.log(`Connection Start`);
   const [defaultConnection, setConnection] = useState<Connection | null>(null);
 
   const [sessionsData, setSessionsData] = useState<Session[]>([]);
@@ -35,7 +60,7 @@ export const DAL = () => {
       // getEntries();
       console.log(`Connection Made`);
     } catch (error) {
-      console.log(`Error in Connection: ${error}`);
+      console.log(`Error in Connection::${error}`);
     }
   }, []);
 
@@ -104,7 +129,6 @@ export const DAL = () => {
     }
     setExercisesData(result);
   }, []);
-
   const getEntries = useCallback(async () => {
     const tRepository = getRepository(Entry);
     let result = await tRepository.find();
@@ -139,8 +163,7 @@ export const DAL = () => {
     } else {
     }
   }, []);
-  // getSessions();
-  return [];
+  return defaultConnection;
 };
 
 export default DAL;
