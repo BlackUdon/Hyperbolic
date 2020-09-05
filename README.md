@@ -1,3 +1,6 @@
-TypeORM config: https://typeorm.io/#/using-ormconfig | 23w8PSHwep0
+# Personsal Workout App
 
-Fish Shell:     https://fishshell.com
++ React-Native
++ TypeScript
++ TypeORM
++ SQLite

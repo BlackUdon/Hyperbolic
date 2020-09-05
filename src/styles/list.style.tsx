@@ -5,7 +5,7 @@ export const ListStyle = StyleSheet.create({
     backgroundColor: 'white',
   },
   nextSession: {
-    backgroundColor: '#406E8E',
+    backgroundColor: '#40618E',
     padding: 30,
     marginVertical: 8,
     marginHorizontal: 16,

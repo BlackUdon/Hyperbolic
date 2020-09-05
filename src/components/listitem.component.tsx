@@ -5,7 +5,7 @@ import {ListItemModel} from './../_core/models/listitem.model';
 import {LinkButton} from './linkbutton.component';
 import {StackActions} from '@react-navigation/native';
 
-export function ListItemComponent(props: ListItemModel): JSX.Element {
+export const ListItemComponent = (props: ListItemModel): JSX.Element => {
   const {id, ...rest} = props;
   // console.log('item');
   // console.log(rest.item.Date);
@@ -24,4 +24,4 @@ export function ListItemComponent(props: ListItemModel): JSX.Element {
       </LinkButton>
     </>
   );
-}
+};
