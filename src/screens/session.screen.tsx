@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, StatusBar, View, TouchableOpacity} from 'react-native';
 
 import {AuthNavProps} from '../_core/services/auth.service';
@@ -9,18 +9,53 @@ import {Header} from '../components/header.component';
 import {ListView} from '../components/listview.component';
 
 import {ListStyle} from '../styles/list.style';
-
-interface sessionProps {}
+import * as ListService from '../_core/services/list.service';
 
 export function SessionScreen({
   navigation,
   route,
 }: AuthNavProps<'SessionScreen'>) {
-  const DATA: ListModel[] = getData(Entities.LIST);
+  console.log('====ScreeSession====');
+  // const DATA: ListModel[] = getData(Entities.LIST);
   // console.log(route.params);
-  var sessionID;
-  if (!(route.params == '')) {
+  let sessionID;
+  if (!(route.params == '' || null)) {
     sessionID = route.params;
+    console.log(`Screen::${sessionID}`);
+  } else {
+    console.log(`Screen::other::${route.params}`);
+  }
+  let temp;
+
+  const getSessionID = async () => {
+    ListService.setSession()
+      .then((res) => {
+        console.log(`ResultID::${res}`);
+        temp = res;
+        // setSessionID(res);
+        console.log(temp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // useEffect(() => {
+  //   ListService.setSession()
+  //     .then((res) => {
+  //       console.log(`ResultID::${res}`);
+  //       temp = res;
+  //       // setSessionID(temp);
+  //       console.log(temp);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  if (temp) {
+    return <></>;
+  } else {
   }
   return (
     <>
@@ -33,14 +68,14 @@ export function SessionScreen({
           <TouchableOpacity>
             <Text
               onPress={() => {
-                navigation.navigate('HomeScreen');
+                // navigation.navigate('HomeScreen');
               }}
               style={ListStyle.text}>
-              sessionID: {JSON.stringify(sessionID)}
+              sessionID: {temp}
             </Text>
           </TouchableOpacity>
         </View>
-        <ListView list={DATA}></ListView>
+        {/* <ListView list={DATA}></ListView> */}
       </View>
     </>
   );

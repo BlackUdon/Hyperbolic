@@ -11,6 +11,7 @@ export const Providers: React.FC<ProvidersProps> = ({}) => {
     DAL.testSetupConnection()
       .then((res) => {
         setConnected(true);
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -24,6 +25,6 @@ export const Providers: React.FC<ProvidersProps> = ({}) => {
       </AuthProvider>
     );
   } else {
-    return null;
+    return <></>;
   }
 };

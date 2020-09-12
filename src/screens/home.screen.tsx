@@ -12,21 +12,35 @@ import * as ListService from '../_core/services/list.service';
 import TestDB from '../db';
 import {Session} from '../_core/entities/session.entity';
 import {getDate} from 'date-fns';
+import {session} from 'electron';
 
 export const HomeScreen = ({navigation, route}: AuthNavProps<'HomeScreen'>) => {
-  const [data, setState] = useState<ListModel[]>([]);
+  const [list, getList] = useState<ListModel[]>([]);
+  // const [sessionID, setSessionID] = useState(Number);
+  let sessionID: Number;
 
   const getData = async () => {
-    let data: Session[] = await ListService.getSession();
-    setState(data.reverse());
+    let data: ListModel[] = await ListService.getSession();
+    getList(data.reverse());
   };
-
+  const setData = async () => {
+    getData();
+    const id = ListService.setSession()
+      .then((res) => {
+        console.log(`HomeSessionID::${res}`);
+        sessionID = Number(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return id;
+  };
   useEffect(() => {
     getData();
   }, []);
 
   const log = (param: string) => {
-    console.log(`${param}::Data: ${data.length}, triggered: `);
+    console.log(`${param}::Data: ${list.length}, triggered: `);
   };
 
   return (
@@ -39,12 +53,13 @@ export const HomeScreen = ({navigation, route}: AuthNavProps<'HomeScreen'>) => {
         <TouchableOpacity
           style={ListStyle.nextSession}
           onPress={() => {
+            setData();
+            console.log(`OnClick::${sessionID}`);
             // @ts-ignore
-            // navigation.navigate('SessionScreen', {
-            // sessionID: 'New Session',E
-            // });
-            ListService.setSession();
-            console.log('HomeScreen::On Press::ListService');
+            navigation.navigate('SessionScreen', {
+              sessionID: sessionID,
+            });
+            console.log(`OnClick::${sessionID}`);
             log('Save');
           }}>
           <View>
@@ -55,13 +70,13 @@ export const HomeScreen = ({navigation, route}: AuthNavProps<'HomeScreen'>) => {
           style={ListStyle.nextSession}
           onPress={() => {
             getData();
-            log('Load');
+            console.log('HomeScreen::On Press::ListService');
           }}>
           <View>
-            <Text style={ListStyle.text}>getData</Text>
+            <Text style={ListStyle.text}>Data</Text>
           </View>
         </TouchableOpacity>
-        <ListView list={data}></ListView>
+        <ListView list={list}></ListView>
       </View>
     </>
   );
