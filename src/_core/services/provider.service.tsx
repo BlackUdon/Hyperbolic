@@ -8,7 +8,7 @@ export const Providers: React.FC<ProvidersProps> = ({}) => {
   const [connected, setConnected] = useState<Boolean>(false);
 
   useEffect(() => {
-    DAL.testSetupConnection()
+    DAL.setDBConnection()
       .then((res) => {
         setConnected(true);
         console.log(res);

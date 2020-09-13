@@ -9,54 +9,34 @@ import {Header} from '../components/header.component';
 import {ListView} from '../components/listview.component';
 
 import {ListStyle} from '../styles/list.style';
-import * as ListService from '../_core/services/list.service';
+import * as ListService from '../_core/services/session.service';
 
 export function SessionScreen({
   navigation,
   route,
 }: AuthNavProps<'SessionScreen'>) {
-  console.log('====ScreeSession====');
-  // const DATA: ListModel[] = getData(Entities.LIST);
-  // console.log(route.params);
-  let sessionID;
-  if (!(route.params == '' || null)) {
-    sessionID = route.params;
-    console.log(`Screen::${sessionID}`);
-  } else {
-    console.log(`Screen::other::${route.params}`);
-  }
-  let temp;
+  // console.log('===ScreeSession===');
+  const [id, setID] = useState(0);
+
+  let temp: Number = 0;
 
   const getSessionID = async () => {
     ListService.setSession()
       .then((res) => {
-        console.log(`ResultID::${res}`);
-        temp = res;
-        // setSessionID(res);
-        console.log(temp);
+        // console.log(`ScreeSession::getSessionID::ResultID::${res}`);
+        temp = Number(res);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  // useEffect(() => {
-  //   ListService.setSession()
-  //     .then((res) => {
-  //       console.log(`ResultID::${res}`);
-  //       temp = res;
-  //       // setSessionID(temp);
-  //       console.log(temp);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+  useEffect(() => {
+    const {sessionID}: any = route.params;
+    setID(sessionID);
+    // console.log(`ScreeSession::useEffect::sessionID::${id}`);
+  }, []);
 
-  if (temp) {
-    return <></>;
-  } else {
-  }
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -64,17 +44,19 @@ export function SessionScreen({
         <Header subTitle={route.name} />
       </View>
       <View style={{flex: 1}}>
-        <View style={ListStyle.nextSession}>
-          <TouchableOpacity>
-            <Text
-              onPress={() => {
-                // navigation.navigate('HomeScreen');
-              }}
-              style={ListStyle.text}>
-              sessionID: {temp}
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('HomeScreen');
+          }}>
+          <View style={ListStyle.nextSession}>
+            <Text style={ListStyle.text}>sessionID: {id}</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {}}>
+          <View style={ListStyle.nextSession}>
+            <Text style={ListStyle.text}>add</Text>
+          </View>
+        </TouchableOpacity>
         {/* <ListView list={DATA}></ListView> */}
       </View>
     </>

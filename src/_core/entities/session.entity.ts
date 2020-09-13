@@ -16,8 +16,6 @@ export class Session {
   @PrimaryGeneratedColumn()
   ID!: number;
 
-  // SessionID:
-
   @OneToMany((type) => Entry, (entry) => entry.ID, {cascade: true})
   @JoinColumn()
   EntryID!: Entry;

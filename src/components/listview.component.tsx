@@ -8,6 +8,7 @@ export const ListView = (props: {list: any[]}) => {
   let a = props.list;
   // console.log('list view');
   // console.log(a[0]);
+  const onRefresh = () => {};
   return (
     <>
       <FlatList<any>
@@ -22,7 +23,9 @@ export const ListView = (props: {list: any[]}) => {
             onHideUnderlay={separators.unhighlight}>
             <ListItemComponent id={item.ID} item={{...item}} />
           </TouchableHighlight>
-        )}></FlatList>
+        )}
+        // onRefresh={() => onRefresh()}
+      ></FlatList>
     </>
   );
 };

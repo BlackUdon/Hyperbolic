@@ -2,46 +2,42 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Text, Button, StatusBar, View, TouchableOpacity} from 'react-native';
 import {Header} from '../components/header.component';
 import {AuthNavProps} from '../_core/services/auth.service';
-import {Center} from '../styles/center.style';
 import {ListModel} from '../_core/models/list.model';
-import {getData, Entities} from '../_core/services/storage.service';
 import {ListStyle} from '../styles/list.style';
 import {ListView} from '../components/listview.component';
-import {DAL} from '../_core/services/database.service';
-import * as ListService from '../_core/services/list.service';
-import TestDB from '../db';
-import {Session} from '../_core/entities/session.entity';
-import {getDate} from 'date-fns';
-import {session} from 'electron';
+import * as ListService from '../_core/services/session.service';
 
 export const HomeScreen = ({navigation, route}: AuthNavProps<'HomeScreen'>) => {
+  console.log(`===HomeScreen===`);
   const [list, getList] = useState<ListModel[]>([]);
-  // const [sessionID, setSessionID] = useState(Number);
-  let sessionID: Number;
 
   const getData = async () => {
     let data: ListModel[] = await ListService.getSession();
     getList(data.reverse());
+    console.log(`HomeScreen::getData::${list.length}`);
   };
-  const setData = async () => {
-    getData();
+  const getSessionID = async () => {
     const id = ListService.setSession()
       .then((res) => {
-        console.log(`HomeSessionID::${res}`);
-        sessionID = Number(res);
+        console.log(`HomeScreen::HomeSessionID::${res}`);
+        // sessionID = Number(res);
+        // @ts-ignore
+        navigation.navigate('SessionScreen', {
+          sessionID: Number(res),
+        });
       })
       .catch((err) => {
         console.log(err);
       });
-    return id;
   };
-  useEffect(() => {
-    getData();
-  }, []);
 
-  const log = (param: string) => {
-    console.log(`${param}::Data: ${list.length}, triggered: `);
-  };
+  useEffect(() => {
+    //Make sure to load new data when navigating back to home
+    const test = navigation.addListener('focus', () => {
+      getData();
+    });
+    console.log(`HomeScreen::useEffect::Test::count${list.length}`);
+  }, [navigation]);
 
   return (
     <>
@@ -53,14 +49,7 @@ export const HomeScreen = ({navigation, route}: AuthNavProps<'HomeScreen'>) => {
         <TouchableOpacity
           style={ListStyle.nextSession}
           onPress={() => {
-            setData();
-            console.log(`OnClick::${sessionID}`);
-            // @ts-ignore
-            navigation.navigate('SessionScreen', {
-              sessionID: sessionID,
-            });
-            console.log(`OnClick::${sessionID}`);
-            log('Save');
+            getSessionID();
           }}>
           <View>
             <Text style={ListStyle.text}>Next Session</Text>
@@ -70,7 +59,6 @@ export const HomeScreen = ({navigation, route}: AuthNavProps<'HomeScreen'>) => {
           style={ListStyle.nextSession}
           onPress={() => {
             getData();
-            console.log('HomeScreen::On Press::ListService');
           }}>
           <View>
             <Text style={ListStyle.text}>Data</Text>
