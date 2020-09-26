@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {AuthProvider} from './auth.service';
 import {Routes} from './../../components/routes.component';
-import * as DAL from '../services/database.service';
+import * as DBConnector from '../services/database.service';
 interface ProvidersProps {}
 
 export const Providers: React.FC<ProvidersProps> = ({}) => {
   const [connected, setConnected] = useState<Boolean>(false);
-
+  console.log('===ProviderService===');
   useEffect(() => {
-    DAL.setDBConnection()
+    DBConnector.setDBConnection()
       .then((res) => {
         setConnected(true);
         console.log(res);

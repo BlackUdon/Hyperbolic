@@ -4,13 +4,13 @@ import {Session} from '../entities/session.entity';
 import {format} from 'date-fns';
 import {ListModel} from '../models/list.model';
 
-const sessionRepo = getRepository(Session);
+// const sessionRepo = getRepository(Session);
 
 export const setSession = async (param?: string) => {
   console.log(`===SessionService::setSession===`);
   let sessionID;
   const date = format(new Date(), 'P');
-
+  const sessionRepo = getRepository(Session);
   const session = sessionRepo.create();
   session.Date = date;
   //#TODO save entry by association
@@ -28,6 +28,7 @@ export const setSession = async (param?: string) => {
 };
 
 export const getSession = async () => {
+  const sessionRepo = getRepository(Session);
   const temp: ListModel[] = await sessionRepo.find();
 
   return temp;

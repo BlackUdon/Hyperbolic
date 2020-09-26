@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "clean-start": "yarn gradle-fix & yarn start-dev",
+    "clean-start": "yarn gradle-clear & yarn npm-clear & yarn start-dev",
     "start-dev": "yarn concurrently \" yarn start \" \"yarn android\"",
-    "gradle-fix": "cd android/ && gradle uA && gradlew clean ",
+    "gradle-clear": "cd android/ && gradle uA && gradlew clean ",
+    "npm-clear": "yarn --reset-cache",
     "start": "yarn react-native start",
     "android": "yarn react-native run-android",
     "logging": "yarn react-native log-android",

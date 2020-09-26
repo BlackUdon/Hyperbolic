@@ -10,21 +10,36 @@ import {ListView} from '../components/listview.component';
 
 import {ListStyle} from '../styles/list.style';
 import * as ListService from '../_core/services/session.service';
+import * as ExerciseService from '../_core/services/exercise.service';
 
-export function SessionScreen({
+import * as Modal from '../components/modal.component';
+
+export const SessionScreen = ({
   navigation,
   route,
-}: AuthNavProps<'SessionScreen'>) {
+}: AuthNavProps<'SessionScreen'>) => {
   // console.log('===ScreeSession===');
   const [id, setID] = useState(0);
 
-  let temp: Number = 0;
+  let numNewID: Number = 0;
+  let listExercise: ListModel[] = [];
 
-  const getSessionID = async () => {
-    ListService.setSession()
+  const addExercise = async () => {
+    ExerciseService.setExercise()
       .then((res) => {
         // console.log(`ScreeSession::getSessionID::ResultID::${res}`);
-        temp = Number(res);
+        numNewID = Number(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getExercise = async () => {
+    ExerciseService.getExercise()
+      .then((res) => {
+        // console.log(`ScreeSession::getSessionID::ResultID::${res}`);
+        listExercise = res;
       })
       .catch((err) => {
         console.log(err);
@@ -36,6 +51,8 @@ export function SessionScreen({
     setID(sessionID);
     // console.log(`ScreeSession::useEffect::sessionID::${id}`);
   }, []);
+
+  Modal.ModalTest;
 
   return (
     <>
@@ -52,13 +69,19 @@ export function SessionScreen({
             <Text style={ListStyle.text}>sessionID: {id}</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
-          <View style={ListStyle.nextSession}>
+        <TouchableOpacity
+          onPress={() => {
+            addExercise();
+            getExercise();
+          }}>
+          {/* <View style={ListStyle.nextSession}>
             <Text style={ListStyle.text}>add</Text>
-          </View>
+          </View> */}
+          <Modal.ModalTest></Modal.ModalTest>
         </TouchableOpacity>
-        {/* <ListView list={DATA}></ListView> */}
+
+        {/* <ListView list={listExercise}></ListView> */}
       </View>
     </>
   );
-}
+};

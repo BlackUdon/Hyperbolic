@@ -1,20 +1,20 @@
 import {useCallback, useEffect, useState} from 'react';
 import {getRepository} from 'typeorm';
 import {format} from 'date-fns';
-import {session} from 'electron';
+
 import {ListModel} from '../models/list.model';
 import {Exercise} from '../entities/exercise.entity';
 
-const exerciseRepo = getRepository(Exercise);
+// const exerciseRepo = getRepository(Exercise);
 
-const a = [];
+// const a = [];
 
 export const setExercise = async (param?: string) => {
-  console.log(`===ExerciseService::setSession===`);
+  console.log(`===ExerciseService::setExercise===`);
   let exerciseID;
   const date = format(new Date(), 'P');
 
-  //   const exerciseRepo = getRepository(Exercise);
+  const exerciseRepo = getRepository(Exercise);
   const exercise = exerciseRepo.create();
   exercise.Date = date;
 
@@ -32,7 +32,7 @@ export const setExercise = async (param?: string) => {
 };
 
 export const getExercise = async () => {
-  //   const exerciseRepo = await getRepository(Exercise);
+  const exerciseRepo = await getRepository(Exercise);
   const temp: ListModel[] = await exerciseRepo.find();
   return temp;
 };

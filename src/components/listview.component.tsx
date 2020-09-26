@@ -4,7 +4,7 @@ import {FlatList} from 'react-native';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {ListItemComponent} from './listitem.component';
 
-export const ListView = (props: {list: any[]}) => {
+export const ListView = (props: {list: any[]}): JSX.Element => {
   let a = props.list;
   // console.log('list view');
   // console.log(a[0]);
