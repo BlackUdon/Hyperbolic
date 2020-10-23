@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Text, StatusBar, View, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState, useRef, createRef} from 'react';
+import {Text, StatusBar, View, TouchableOpacity, Alert} from 'react-native';
 
 import {AuthNavProps} from '../_core/services/auth.service';
 import {getData, Entities} from '../_core/services/storage.service';
@@ -13,6 +13,7 @@ import * as ListService from '../_core/services/session.service';
 import * as ExerciseService from '../_core/services/exercise.service';
 
 import * as Modal from '../components/modal.component';
+import {title} from 'process';
 
 export const SessionScreen = ({
   navigation,
@@ -23,7 +24,6 @@ export const SessionScreen = ({
 
   let numNewID: Number = 0;
   let listExercise: ListModel[] = [];
-
   const addExercise = async () => {
     ExerciseService.setExercise()
       .then((res) => {
@@ -34,7 +34,6 @@ export const SessionScreen = ({
         console.log(err);
       });
   };
-
   const getExercise = async () => {
     ExerciseService.getExercise()
       .then((res) => {
@@ -45,14 +44,13 @@ export const SessionScreen = ({
         console.log(err);
       });
   };
-
   useEffect(() => {
     const {sessionID}: any = route.params;
     setID(sessionID);
     // console.log(`ScreeSession::useEffect::sessionID::${id}`);
   }, []);
 
-  Modal.ModalTest;
+  const ref = createRef();
 
   return (
     <>
@@ -71,14 +69,40 @@ export const SessionScreen = ({
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            addExercise();
-            getExercise();
+            // addExercise();
+            // getExercise();
+            console.log(`This Value::${ref}`);
           }}>
-          {/* <View style={ListStyle.nextSession}>
-            <Text style={ListStyle.text}>add</Text>
-          </View> */}
-          <Modal.ModalTest></Modal.ModalTest>
+          <View style={ListStyle.nextSession}>
+            <Text style={ListStyle.text}>Go</Text>
+          </View>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            // Alert.alert('hey', 'now');
+            // Alert.prompt(
+            //   'Enter password',
+            //   'Enter your password to claim your $1.5B in lottery winnings',
+            //   [
+            //     {
+            //       text: 'Cancel',
+            //       onPress: () => console.log('Cancel Pressed'),
+            //       style: 'cancel',
+            //     },
+            //     {
+            //       text: 'OK',
+            //       onPress: (password) =>
+            //         console.log('OK Pressed, password: ' + password),
+            //     },
+            //   ],
+            //   'secure-text',
+            // );
+          }}>
+          <View style={ListStyle.nextSession}>
+            <Text style={ListStyle.text}> Alert</Text>
+          </View>
+        </TouchableOpacity>
+        <Modal.ModalTest ref={ref}></Modal.ModalTest>
 
         {/* <ListView list={listExercise}></ListView> */}
       </View>

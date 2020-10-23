@@ -26,7 +26,7 @@ export const ListStyle = StyleSheet.create({
     borderRadius: 20,
   },
   modalButton: {
-    backgroundColor: '#363732',
+    backgroundColor: '#1C1C1C',
     // borderRadius: 20,
     padding: 10,
     elevation: 2,
